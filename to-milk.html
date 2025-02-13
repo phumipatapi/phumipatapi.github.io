@@ -4,24 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>To Milk<3</title>
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
 
+  <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
- 
+
     body {
       background: linear-gradient(135deg, #FFFAF0, #FFE4E1);
       height: 100vh;
       overflow: hidden;
-      font-family: "TH Sarabun New", Arial, sans-serif; 
+      font-family: 'Prompt', sans-serif; 
       position: relative;
     }
-    
-   
+
     .hamster-wrapper {
       position: absolute;
       width: 120px;
@@ -29,7 +28,6 @@
       transition: left 1s ease, top 1s ease;
     }
 
-  
     .hamster {
       width: 100%;
       height: 100%;
@@ -40,7 +38,6 @@
       cursor: pointer;
     }
     
-
     .hamster.walking {
       animation: walkCycle 1s ease-in-out infinite;
     }
@@ -49,7 +46,6 @@
       50%  { transform: translateY(-8px); }
       100% { transform: translateY(0); }
     }
-    
 
     .hamster.petted .eye {
       transform: scaleY(0.3);
@@ -57,7 +53,6 @@
     .hamster.petted .mouth {
       transform: translateX(-50%) scaleY(1);
     }
-    
 
     .hamster .ear {
       position: absolute;
@@ -75,7 +70,7 @@
       top: -10px;
       right: 10px;
     }
-    
+
     .hamster .tail {
       position: absolute;
       width: 20px;
@@ -86,7 +81,7 @@
       left: -10px;
       transform: rotate(-30deg);
     }
-    
+
     .hamster .face {
       position: absolute;
       bottom: 15px;
@@ -97,7 +92,7 @@
       background: rgba(255,255,255,0.1);
       border-radius: 50%;
     }
-    
+
     .hamster .eye {
       position: absolute;
       width: 12px;
@@ -113,7 +108,7 @@
     .hamster .eye.right {
       right: 20%;
     }
-    
+
     .hamster .nose {
       position: absolute;
       bottom: 20%;
@@ -124,7 +119,7 @@
       background: pink;
       border-radius: 50%;
     }
-    
+
     .hamster .mouth {
       position: absolute;
       bottom: 10%;
@@ -136,7 +131,7 @@
       border-radius: 50%;
       transition: transform 0.3s ease;
     }
-    
+
     .heart {
       position: absolute;
       font-size: 24px;
@@ -169,7 +164,7 @@
       transition: left 1s ease, top 1s ease, opacity 1s ease, transform 0.5s ease;
       z-index: 10;
     }
-    
+
     .letter .flap {
       position: absolute;
       width: 100%;
@@ -180,17 +175,17 @@
       transform-origin: top;
       transition: transform 0.5s ease;
     }
-    
+
     .letter.open .flap {
       transform: rotateX(-150deg);
     }
-    
+
     .letter .content {
       position: absolute;
       top: 0%;
       left: 0;
       width: 100%;
-      height: 50%;
+      
       padding: 20px;
       text-align: left;
       display: none;
@@ -200,7 +195,6 @@
       overflow-y: auto; 
     }
     
-   
     .letter .content p {
       margin: 0 0 1em; 
       text-indent: 1.5em; 
@@ -209,14 +203,8 @@
     .letter.open .content {
       display: block;
     }
-    
-    .popup {
-      position: fixed;
-      left: calc(50% - 50px); 
-      top: calc(50% - 40px);  
-      transform: scale(1.5);
-      z-index: 20;
-    }
+
+    /* The key changes for responsive modal are here */
     .modal {
       position: fixed;
       top: 50%;
@@ -228,14 +216,19 @@
       border-radius: 5px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       padding: 20px;
-      width: 500px; 
-      height: 500px;
+
+      /* Instead of fixed width/height, use % (or vw/vh) plus a max-width/height */
+      width: 80vw;          /* fill 80% of the viewport width */
+      max-width: 500px;     /* up to 500px wide */
+      height: 80vh;     /* up to 80% of the viewport height */
+          /* scroll if content exceeds the modal’s height */
+
       display: none;
     }
     .modal.open {
       display: block;
     }
-    
+
   </style>
 </head>
 <body>
@@ -253,11 +246,9 @@
     </div>
   </div>
 
-
   <div class="letter" id="letter">
     <div class="flap"></div>
     <div class="content">
-     
       <p>
         ถึงมิ้ว
       </p>
@@ -301,7 +292,6 @@
       hamsterWrapper.style.left = randomLeft + 'px';
       hamsterWrapper.style.top = randomTop + 'px';
       
- 
       setTimeout(() => {
         hamster.classList.remove('walking');
       }, 1000);
@@ -327,13 +317,11 @@
       setTimeout(() => { hamster.classList.remove('petted'); }, 500);
       setTimeout(() => { heart.remove(); }, 1000);
       
- 
       tapCount++;
       if (tapCount >= 5 && window.getComputedStyle(letter).opacity === "0") {
         dropLetterFromHamster();
       }
     });
-    
 
     function dropLetterFromHamster() {
       const hamsterRect = hamsterWrapper.getBoundingClientRect();
@@ -346,7 +334,6 @@
       letter.dataset.dropLeft = letter.style.left;
       letter.dataset.dropTop = letter.style.top;
 
-
       setTimeout(() => {
         let dropTop = hamsterRect.top + 150;
         dropTop = Math.min(dropTop, window.innerHeight - 80 - 10);
@@ -358,15 +345,13 @@
 
     letter.addEventListener('click', function() {
       if (!letter.classList.contains('modal')) {
-
         letter.classList.add('modal');
         letter.classList.add('open');
-    
+        
         letter.style.left = '';
         letter.style.top = '';
         letter.style.transform = '';
       } else {
-       
         letter.classList.remove('modal');
         letter.classList.remove('open');
         letter.style.left = letter.dataset.dropLeft;

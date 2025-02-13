@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>To Milk<3</title>
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+ 
+    body {
+      background: linear-gradient(135deg, #FFFAF0, #FFE4E1);
+      height: 100vh;
+      overflow: hidden;
+      font-family: "TH Sarabun New", Arial, sans-serif; 
+      position: relative;
+    }
+    
+   
+    .hamster-wrapper {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      transition: left 1s ease, top 1s ease;
+    }
+
+  
+    .hamster {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: radial-gradient(circle at top left, #D2B48C, #A0522D);
+      border-radius: 50%;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+    
+
+    .hamster.walking {
+      animation: walkCycle 1s ease-in-out infinite;
+    }
+    @keyframes walkCycle {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+    
+
+    .hamster.petted .eye {
+      transform: scaleY(0.3);
+    }
+    .hamster.petted .mouth {
+      transform: translateX(-50%) scaleY(1);
+    }
+    
+
+    .hamster .ear {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #D2B48C, #A0522D);
+      border-radius: 50%;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    }
+    .hamster .ear.left {
+      top: -10px;
+      left: 10px;
+    }
+    .hamster .ear.right {
+      top: -10px;
+      right: 10px;
+    }
+    
+    .hamster .tail {
+      position: absolute;
+      width: 20px;
+      height: 8px;
+      background: radial-gradient(circle, #D2B48C, #A0522D);
+      border-radius: 50%;
+      bottom: 10px;
+      left: -10px;
+      transform: rotate(-30deg);
+    }
+    
+    .hamster .face {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 60%;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    
+    .hamster .eye {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #000;
+      border-radius: 50%;
+      top: 25%;
+      transition: transform 0.3s ease;
+    }
+    .hamster .eye.left {
+      left: 20%;
+    }
+    .hamster .eye.right {
+      right: 20%;
+    }
+    
+    .hamster .nose {
+      position: absolute;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 10px;
+      background: pink;
+      border-radius: 50%;
+    }
+    
+    .hamster .mouth {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%) scaleY(0);
+      width: 20px;
+      height: 8px;
+      border-bottom: 2px solid #000;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+    
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      color: #FF69B4;
+      animation: float 1s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes float {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(1.2);
+      }
+    }
+
+    .letter {
+      position: absolute;
+      width: 100px; 
+      height: 80px; 
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      overflow: hidden;
+      opacity: 0;
+      transition: left 1s ease, top 1s ease, opacity 1s ease, transform 0.5s ease;
+      z-index: 10;
+    }
+    
+    .letter .flap {
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      background: #fff;
+      border-bottom: 2px solid #ccc;
+      top: 0;
+      transform-origin: top;
+      transition: transform 0.5s ease;
+    }
+    
+    .letter.open .flap {
+      transform: rotateX(-150deg);
+    }
+    
+    .letter .content {
+      position: absolute;
+      top: 0%;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      padding: 20px;
+      text-align: left;
+      display: none;
+      font-size: 16px;
+      color: #333;
+      line-height: 1.4;
+      overflow-y: auto; 
+    }
+    
+   
+    .letter .content p {
+      margin: 0 0 1em; 
+      text-indent: 1.5em; 
+    }
+
+    .letter.open .content {
+      display: block;
+    }
+    
+    .popup {
+      position: fixed;
+      left: calc(50% - 50px); 
+      top: calc(50% - 40px);  
+      transform: scale(1.5);
+      z-index: 20;
+    }
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      width: 500px; 
+      height: 500px;
+      display: none;
+    }
+    .modal.open {
+      display: block;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="hamster-wrapper" id="hamsterWrapper">
+    <div class="hamster" id="hamster">
+      <div class="ear left"></div>
+      <div class="ear right"></div>
+      <div class="tail"></div>
+      <div class="face">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="nose"></div>
+        <div class="mouth"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="letter" id="letter">
+    <div class="flap"></div>
+    <div class="content">
+     
+      <p>
+        ถึงมิ้ว
+      </p>
+      <p>
+        ตลอด 1 เดือนครึ่งที่ผ่านมา ไม่นึกเลยว่าจะได้คุยกับมิ้วแบบนี้ มิ้วเป็นคนที่น่ารักมาก ๆ เลย 
+        รู้สึกดีทุกครั้งที่ได้คุยด้วย และอยากคุยกันแบบนี้ไปเรื่อย ๆ เลยยย
+      </p>
+      <p>
+        แม้ว่าเราไม่ได้เจอกัน แต่ก๊องก็มีความสุขมาก ๆ นะ 
+        ถึงอย่างนั้นก็ยังอยากเจอมิ้วมาก ๆ เลย 55555
+        ต่อจากนี้ก๊องก็อยากจะเรียนรู้และเข้าใจมิ้วมากขึ้น อยากแชร์เรื่องราวดี ๆ ในแต่ละวันให้ฟัง 
+        อยากให้มิ้วมีความสุขเสมอ 
+        ถ้ามีเรื่องเครียดก็สามารถมาคุยกับเราได้ตลอดเลยนะ 
+        บางเรื่องเราอาจไม่รู้ว่าจะแก้ปัญหายังไง แต่ก๊องก็ยินดีจะรับฟังเสมอ
+      </p>
+      <p>
+        สุดท้ายนี้ก็อยากบอกว่าชอบมิ้วมาก ๆ เลย! ขอบคุณที่คุยกับก๊องนะะะ
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const hamsterWrapper = document.getElementById('hamsterWrapper');
+    const hamster = document.getElementById('hamster');
+    const letter = document.getElementById('letter');
+    let tapCount = 0;
+
+    function moveHamsterRandomly() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const wrapperWidth = hamsterWrapper.offsetWidth;
+      const wrapperHeight = hamsterWrapper.offsetHeight;
+      
+      const maxLeft = vw - wrapperWidth;
+      const maxTop = vh - wrapperHeight;
+      
+      const randomLeft = Math.random() * maxLeft;
+      const randomTop = Math.random() * maxTop;
+
+      hamster.classList.add('walking');
+      hamsterWrapper.style.left = randomLeft + 'px';
+      hamsterWrapper.style.top = randomTop + 'px';
+      
+ 
+      setTimeout(() => {
+        hamster.classList.remove('walking');
+      }, 1000);
+    }
+    
+    setInterval(moveHamsterRandomly, 4000);
+    
+    hamster.addEventListener('click', function(e) {
+      e.stopPropagation();
+      
+      hamster.classList.add('petted');
+
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '❤️';
+      const rect = hamster.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const offsetY = e.clientY - rect.top;
+      heart.style.left = offsetX + 'px';
+      heart.style.top = offsetY + 'px';
+      hamster.appendChild(heart);
+      
+      setTimeout(() => { hamster.classList.remove('petted'); }, 500);
+      setTimeout(() => { heart.remove(); }, 1000);
+      
+ 
+      tapCount++;
+      if (tapCount >= 5 && window.getComputedStyle(letter).opacity === "0") {
+        dropLetterFromHamster();
+      }
+    });
+    
+
+    function dropLetterFromHamster() {
+      const hamsterRect = hamsterWrapper.getBoundingClientRect();
+
+      let letterLeft = hamsterRect.left + (hamsterRect.width / 2) - 50; 
+      letterLeft = Math.max(10, Math.min(letterLeft, window.innerWidth - 100 - 10));
+
+      letter.style.left = letterLeft + "px";
+      letter.style.top = hamsterRect.top + "px";
+      letter.dataset.dropLeft = letter.style.left;
+      letter.dataset.dropTop = letter.style.top;
+
+
+      setTimeout(() => {
+        let dropTop = hamsterRect.top + 150;
+        dropTop = Math.min(dropTop, window.innerHeight - 80 - 10);
+        letter.style.top = dropTop + "px";
+        letter.dataset.dropTop = letter.style.top;
+        letter.style.opacity = "1";
+      }, 50);
+    }
+
+    letter.addEventListener('click', function() {
+      if (!letter.classList.contains('modal')) {
+
+        letter.classList.add('modal');
+        letter.classList.add('open');
+    
+        letter.style.left = '';
+        letter.style.top = '';
+        letter.style.transform = '';
+      } else {
+       
+        letter.classList.remove('modal');
+        letter.classList.remove('open');
+        letter.style.left = letter.dataset.dropLeft;
+        letter.style.top = letter.dataset.dropTop;
+      }
+    });
+  </script>
+</body>
+</html>
